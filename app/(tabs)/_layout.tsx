@@ -25,7 +25,7 @@ export default function TabLayout() {
             <SymbolView
               name={{
                 ios: 'chevron.left.forwardslash.chevron.right',
-                android: 'code',
+                android: 'hearing',
                 web: 'code',
               }}
               tintColor={color}

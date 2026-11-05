@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "dependencies": {
+    "docx": "^9.15.2",
     "docxtemplater": "^3.71.1",
     "expo": "~58.0.23",
     "expo-asset": "~58.0.20",
@@ -15,6 +16,7 @@
     "expo-status-bar": "~58.0.4",
     "expo-symbols": "~58.0.4",
     "expo-web-browser": "~58.0.7",
+    "image-size": "^2.0.4",
     "pizzip": "^3.3.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",

@@ -4,10 +4,12 @@ import { Asset } from "expo-asset";
 // import path from "node:path";
 import PizZip from "pizzip";
 // import fs from "node:fs";
+import { addImageTables, addImageTables2 } from "./add_image_table_test";
+
 
 // export async function generateTest() {
 //   const templatePath = path.resolve(
-//     "assets/templates/report1.1/document.docx"
+//     "assets/templates/report1.2/document.docx"
 //   );
 
 //   const content = fs.readFileSync(templatePath, "binary");
@@ -21,6 +23,7 @@ import PizZip from "pizzip";
 
 //   doc.render({
 //     name: "Teste Docxtemplater",
+//     GALERIA: "{{GALERIA}}",
 //     eventos: [
 //       {
 //         data: "04/11/2026",
@@ -38,9 +41,18 @@ import PizZip from "pizzip";
 //   });
 
 //   const output = doc.toBuffer();
+
+//   const images = Array.from({ length: 20 }, (_, index) => ({
+//     path: `https://placehold.co/${Math.floor(Math.random() * (1000 - 50 + 1)) + 50}x${Math.floor(Math.random() * (1000 - 50 + 1)) + 50}/EEE/31343C.png`,
+//     caption: `Descrição da imagem`,
+//     type: "png" as const,
+//   }));
+
+//   const finalDocument = await addImageTables(output, images);
+
 //   const outputPath = path.resolve("relatorio_gerado.docx");
 
-//   fs.writeFileSync(outputPath, output);
+//   fs.writeFileSync(outputPath, finalDocument);
 
 //   console.log(`Documento gerado: ${outputPath}`);
 // }
@@ -49,9 +61,7 @@ import PizZip from "pizzip";
 
 export async function generateTest2() {
   // 1. Carregar o template incluído no aplicativo
-  const asset = Asset.fromModule(
-    require("./assets/templates/report1.1/document.docx")
-  );
+  const asset = Asset.fromModule(require("./assets/templates/report1.2/document.docx"));
 
   await asset.downloadAsync();
 
@@ -77,13 +87,15 @@ export async function generateTest2() {
     linebreaks: true,
   });
 
+
   // 4. Preencher os dados
   doc.render({
     name: "Teste no Android",
+    GALERIA: "{{GALERIA}}",
     eventos: [
       {
         data: "04/11/2026",
-        suportDescription: "Primeira atividade",
+        suportDescription: "Primeira atividade, Primeira atividade, Primeira atividade, Primeira atividade, Primeira atividade, Primeira atividadePrimeira atividadePrimeira atividadePrimeira atividadePrimeira atividade, Primeira atividade,Primeira atividadePrimeira atividadePrimeira atividadePrimeira atividadePrimeira atividade",
       },
       {
         data: "05/11/2026",
@@ -98,9 +110,21 @@ export async function generateTest2() {
 
   // 5. Gerar DOCX em Base64
   const output = doc.getZip().generate({
-    type: "base64",
+    // type: "base64",
+    type: "uint8array",
     compression: "DEFLATE",
   });
+
+  // 6. Criar imagens de teste
+  const images = Array.from({ length: 20 }, (_, index) => ({
+    path: `https://placehold.co/${Math.floor(Math.random() * (1000 - 50 + 1)) + 50}x${Math.floor(Math.random() * (1000 - 50 + 1)) + 50}/EEE/31343C.png`,
+    caption: "Descrição da imagem",
+    type: "png" as const,
+  }));
+
+  // 7. Inserir as imagens no documento
+  const finalDocument = await addImageTables2(output, images);
+
 
   // 6. Solicitar ao usuário onde salvar
   const permission = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
@@ -119,9 +143,11 @@ export async function generateTest2() {
     );
 
   // 7. Gravar o arquivo
-  await FileSystem.writeAsStringAsync(fileUri, output, {
+  await FileSystem.writeAsStringAsync(fileUri, finalDocument, {
     encoding: FileSystem.EncodingType.Base64,
   });
 
   return fileUri;
 }
+
+

@@ -1,16 +1,16 @@
 // import * as FileSystem from "expo-file-system/legacy";
 import Docxtemplater from "docxtemplater";
 // import { Asset } from "expo-asset";
+import fs from "node:fs";
 import path from "node:path";
 import PizZip from "pizzip";
-import fs from "node:fs";
-import { addImageTables, /* addImageTables2 */ } from "./add_image_table_test";
-
+import {
+  addImageGallery /* addImageTables2 */,
+} from "./add_image_gallery_test";
+import { addSignature } from "./add_signature_test";
 
 export async function generateTest() {
-  const templatePath = path.resolve(
-    "assets/templates/report2.0/document.docx"
-  );
+  const templatePath = path.resolve("assets/templates/report2.1/document.docx");
 
   const content = fs.readFileSync(templatePath, "binary");
 
@@ -21,10 +21,84 @@ export async function generateTest() {
     linebreaks: true,
   });
 
+  /* 
   doc.render({
-    name: "Teste Docxtemplater",
-    GALERIA: "{{GALERIA}}",
-    eventos: [
+    expeditions: [
+      {
+        expeditions_date: "04/11/2026",
+        expeditions_code: "1.1.",
+        expeditions_description: "Expedition activity",
+        expeditions_workload: "20%",
+      },
+    ],
+
+    data_collection: [],
+    operation: [],
+    monitoring: [],
+    implementation: [],
+    participations: [],
+  });
+   */
+
+  doc.render({
+    scholar_name: "Nome do usuario teste generate teste",
+    image_gallery: "{{image_gallery}}",
+    scholar_signature: "{{scholar_signature}}",
+    expeditions: Array.from({ length: 5 }, (_, index) => ({
+      expeditions_date: "04/11/2026",
+      expeditions_code: `1.${index + 1}.`,
+      expeditions_description: `Expedition activity ${index + 1}`,
+      expeditions_workload: String(Math.floor(Math.random() * 10) + 1),
+    })),
+    data_collection: Array.from({ length: 5 }, (_, index) => ({
+      data_collection_date: "04/11/2026",
+      data_collection_code: `2.${index + 1}.`,
+      data_collection_description: `Data collection activity ${index + 1}`,
+      data_collection_workload: String(Math.floor(Math.random() * 10) + 1),
+    })),
+    operation: Array.from({ length: 5 }, (_, index) => ({
+      operation_date: "04/11/2026",
+      operation_code: `3.${index + 1}.`,
+      operation_description: `Operation activity ${index + 1}`,
+      operation_workload: String(Math.floor(Math.random() * 10) + 1),
+    })),
+    monitoring: Array.from({ length: 5 }, (_, index) => ({
+      monitoring_date: "04/11/2026",
+      monitoring_code: `4.${index + 1}.`,
+      monitoring_description: `Monitoring activity ${index + 1}`,
+      monitoring_workload: String(Math.floor(Math.random() * 10) + 1),
+    })),
+    implementation: [
+      {
+        implementation_date: "dd/mm/aaaa",
+        implementation_code: `5.1.`,
+        implementation_description: `NA`,
+        implementation_workload: "0",
+      },
+    ],
+    // implementation: Array.from({ length: 5 }, (_, index) => ({
+    //   implementation_date: "04/11/2026",
+    //   implementation_code: `5.${index + 1}.`,
+    //   implementation_description: `Implementation activity ${index + 1}`,
+    //   implementation_workload: String(Math.floor(Math.random() * 10) + 1),
+    // })),
+    participation: Array.from({ length: 5 }, (_, index) => ({
+      participation_date: "04/11/2026",
+      participation_code: `6.${index + 1}.`,
+      participation_description: `Participation activity ${index + 1}`,
+      participation_workload: String(Math.floor(Math.random() * 10) + 1),
+    })),
+
+    /* expeditions: [
+      {
+        expeditions_date: "04/11/2026",
+        expeditions_code: "1.1.",
+        expeditions_description: "Expedition activity",
+        expeditions_workload: "5",
+      },
+    ], */
+
+    /* eventos: [
       {
         data: "04/11/2026",
         suportDescription: "Primeira atividade Primeira atividadePrimeira atividadePrimeira atividadePrimeira atividade Primeira atividade Primeira atividade Primeira atividade Primeira atividade Primeira atividadePrimeira atividade Primeira atividade Primeira atividade Primeira atividade Primeira atividade Primeira atividade Primeira atividade",
@@ -37,7 +111,7 @@ export async function generateTest() {
         data: "06/11/2026",
         suportDescription: "Terceira atividade",
       },
-    ],
+    ], */
   });
 
   const output = doc.toBuffer();
@@ -48,7 +122,10 @@ export async function generateTest() {
     type: "png" as const,
   }));
 
-  const finalDocument = await addImageTables(output, images);
+
+  // Gambiarra medonha (ALTERAR NO PRODUTO FINAL)
+  let finalDocument = await addImageGallery(output, images);
+  finalDocument = await addSignature(finalDocument, images[0]);
 
   const outputPath = path.resolve("relatorio_gerado.docx");
 
@@ -87,7 +164,6 @@ generateTest();
 //     linebreaks: true,
 //   });
 
-
 //   // 4. Preencher os dados
 //   doc.render({
 //     name: "Teste no Android",
@@ -125,7 +201,6 @@ generateTest();
 //   // 7. Inserir as imagens no documento
 //   const finalDocument = await addImageTables2(output, images);
 
-
 //   // 6. Solicitar ao usuário onde salvar
 //   const permission = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
 
@@ -149,5 +224,3 @@ generateTest();
 
 //   return fileUri;
 // }
-
-

@@ -1,126 +1,121 @@
 // import fs from "node:fs";
 import {
+    AlignmentType,
+    ImageRun,
+    Paragraph,
     patchDocument,
     PatchType,
     Table,
-    TableRow,
     TableCell,
-    Paragraph,
-    ImageRun,
-    WidthType,
-    AlignmentType,
+    TableRow,
     TextRun,
+    WidthType,
 } from "docx";
 
 import { imageSize } from "image-size";
 // import { Image } from "react-native";
 
 interface ImageItem {
-    path: string;
-    caption: string;
-    type: "png" | "jpg";
+  path: string;
+  caption: string;
+  type: "png" | "jpg";
 }
 
-export async function addImageTables(
-    documentBuffer: Buffer,
-    images: ImageItem[]
+export async function addImageGallery(
+  documentBuffer: Buffer,
+  images: ImageItem[],
 ): Promise<Buffer> {
+  const imageTables = await Promise.all(
+    images.map(async (item, i) => {
+      // const imageBuffer = fs.readFileSync(item.path);
+      const imageBuffer = Buffer.from(
+        await (await fetch(item.path)).arrayBuffer(),
+      );
 
+      const imageSz = imageSize(imageBuffer);
+      const ratio = imageSz.height / imageSz.width;
+      const width = 580;
+      const height = Math.round(width * ratio);
 
-    const imageTables = await Promise.all (images.map(async (item, i) => {
-        
-        // const imageBuffer = fs.readFileSync(item.path);
-        const imageBuffer = Buffer.from(
-            await (await fetch(item.path)).arrayBuffer()
-        );
-
-        const imageSz = imageSize(imageBuffer);
-        const ratio = imageSz.height / imageSz.width;
-        const width = 580
-        const height = Math.round(width * ratio);
-
-
-        return new Table({
-            width: {
-                size: 100,
-                type: WidthType.PERCENTAGE,
-            },
-            rows: [
-                // Linha da imagem
-                new TableRow({
-                    children: [
-                        new TableCell({
-                            shading: {
-                                fill: "D9D9D9",
-                                type: "clear",
-                            },
-                            children: [
-                                new Paragraph({
-                                    alignment: AlignmentType.CENTER,
-                                    children: [
-                                        new ImageRun({
-                                            type: item.type,
-                                            data: imageBuffer,
-                                            transformation: {
-                                                width: width,
-                                                height: height,
-                                            },
-                                        }),
-                                    ],
-                                }),
-                            ],
-                        }),
-                    ],
-                }),
-                // Linha da legenda
-                new TableRow({
-                    children: [
-                        new TableCell({
-                            children: [
-                                new Paragraph({
-                                    children: [
-                                        new TextRun({
-                                            text: `Figura ${String(i + 1).padStart(2, "0")}. `,
-                                            bold: true,
-                                        }),
-                                        new TextRun({
-                                            text: `${item.caption}`,
-                                        }),
-                                    ]
-                                }),
-                            ],
-                        }),
-                    ],
-                }),
-            ],
-        });
-    }));
-
-    const galleryContent = imageTables.flatMap((table) => [
-        table,
-        new Paragraph(""),
-    ]);
-
-    const result = await patchDocument({
-        outputType: "nodebuffer",
-        data: documentBuffer,
-        // placeholderDelimiters: {
-        //     start: "{",
-        //     end: "}",
-        // },
-        patches: {
-            GALERIA: {
-                type: PatchType.DOCUMENT,
-                children: galleryContent,
-            },
+      return new Table({
+        width: {
+          size: 100,
+          type: WidthType.PERCENTAGE,
         },
-    });
+        rows: [
+          // Linha da imagem
+          new TableRow({
+            children: [
+              new TableCell({
+                shading: {
+                  fill: "D9D9D9",
+                  type: "clear",
+                },
+                children: [
+                  new Paragraph({
+                    alignment: AlignmentType.CENTER,
+                    children: [
+                      new ImageRun({
+                        type: item.type,
+                        data: imageBuffer,
+                        transformation: {
+                          width: width,
+                          height: height,
+                        },
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            ],
+          }),
+          // Linha da legenda
+          new TableRow({
+            children: [
+              new TableCell({
+                children: [
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: `Figura ${String(i + 1).padStart(2, "0")}. `,
+                        bold: true,
+                      }),
+                      new TextRun({
+                        text: `${item.caption}`,
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ],
+      });
+    }),
+  );
+
+  const galleryContent = imageTables.flatMap((table) => [
+    table,
+    new Paragraph(""),
+  ]);
+
+  const result = await patchDocument({
+    outputType: "nodebuffer",
+    data: documentBuffer,
+    // placeholderDelimiters: {
+    //     start: "{",
+    //     end: "}",
+    // },
+    patches: {
+      image_gallery: {
+        type: PatchType.DOCUMENT,
+        children: galleryContent,
+      },
+    },
+  });
 
   return result;
 }
-
-
-
 
 // export async function addImageTables2(
 //     documentBuffer: Uint8Array,
@@ -227,4 +222,3 @@ export async function addImageTables(
 
 //     return result;
 // }
-

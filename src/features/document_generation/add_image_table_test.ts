@@ -13,7 +13,7 @@ import {
 } from "docx";
 
 import { imageSize } from "image-size";
-import { Image } from "react-native";
+// import { Image } from "react-native";
 
 interface ImageItem {
     path: string;
@@ -122,109 +122,109 @@ export async function addImageTables(
 
 
 
-export async function addImageTables2(
-    documentBuffer: Uint8Array,
-    images: ImageItem[]
-): Promise<string> {
-    const imageTables = await Promise.all(
-        images.map(async (item, i) => {
-            const response = await fetch(item.path);
+// export async function addImageTables2(
+//     documentBuffer: Uint8Array,
+//     images: ImageItem[]
+// ): Promise<string> {
+//     const imageTables = await Promise.all(
+//         images.map(async (item, i) => {
+//             const response = await fetch(item.path);
 
-            if(!response.ok) {
-                throw new Error(`Erro ao carregar imagem: ${item.path}`);
-            }
+//             if(!response.ok) {
+//                 throw new Error(`Erro ao carregar imagem: ${item.path}`);
+//             }
 
-            const imageBuffer = new Uint8Array(
-                await response.arrayBuffer()
-            );
+//             const imageBuffer = new Uint8Array(
+//                 await response.arrayBuffer()
+//             );
 
-            const imageSize = await new Promise<{width: number;height: number;}>
-                ((resolve, reject) => {
-                    Image.getSize(
-                        item.path,
-                        (width, height) => resolve({ width, height }),
-                        reject
-                    );
-                });
+//             const imageSize = await new Promise<{width: number;height: number;}>
+//                 ((resolve, reject) => {
+//                     Image.getSize(
+//                         item.path,
+//                         (width, height) => resolve({ width, height }),
+//                         reject
+//                     );
+//                 });
 
-            const ratio = imageSize.height / imageSize.width;
-            const width = 580;
-            const height = Math.round(width * ratio);
+//             const ratio = imageSize.height / imageSize.width;
+//             const width = 580;
+//             const height = Math.round(width * ratio);
 
-            return new Table({
-                width: {
-                    size: 100,
-                    type: WidthType.PERCENTAGE,
-                },
-                rows: [
-                    // Linha da imagem
-                    new TableRow({
-                        children: [
-                            new TableCell({
-                                shading: {
-                                    fill: "D9D9D9",
-                                    type: "clear",
-                                },
-                                children: [
-                                    new Paragraph({
-                                        alignment: AlignmentType.CENTER,
-                                        children: [
-                                            new ImageRun({
-                                                type: item.type,
-                                                data: imageBuffer,
-                                                transformation: {
-                                                    width,
-                                                    height,
-                                                },
-                                            }),
-                                        ],
-                                    }),
-                                ],
-                            }),
-                        ],
-                    }),
+//             return new Table({
+//                 width: {
+//                     size: 100,
+//                     type: WidthType.PERCENTAGE,
+//                 },
+//                 rows: [
+//                     // Linha da imagem
+//                     new TableRow({
+//                         children: [
+//                             new TableCell({
+//                                 shading: {
+//                                     fill: "D9D9D9",
+//                                     type: "clear",
+//                                 },
+//                                 children: [
+//                                     new Paragraph({
+//                                         alignment: AlignmentType.CENTER,
+//                                         children: [
+//                                             new ImageRun({
+//                                                 type: item.type,
+//                                                 data: imageBuffer,
+//                                                 transformation: {
+//                                                     width,
+//                                                     height,
+//                                                 },
+//                                             }),
+//                                         ],
+//                                     }),
+//                                 ],
+//                             }),
+//                         ],
+//                     }),
 
-                    // Linha da legenda
-                    new TableRow({
-                        children: [
-                            new TableCell({
-                                children: [
-                                    new Paragraph({
-                                        children: [
-                                        new TextRun({
-                                            text: `Figura ${String(i + 1).padStart(2, "0")}. `,
-                                            bold: true,
-                                        }),
-                                        new TextRun({
-                                            text: item.caption,
-                                        }),
-                                        ],
-                                    }),
-                                ],
-                            }),
-                        ],
-                    }),
-                ],
-            });
-        })
-    );
+//                     // Linha da legenda
+//                     new TableRow({
+//                         children: [
+//                             new TableCell({
+//                                 children: [
+//                                     new Paragraph({
+//                                         children: [
+//                                             new TextRun({
+//                                                 text: `Figura ${String(i + 1).padStart(2, "0")}. `,
+//                                                 bold: true,
+//                                             }),
+//                                             new TextRun({
+//                                                 text: item.caption,
+//                                             }),
+//                                         ],
+//                                     }),
+//                                 ],
+//                             }),
+//                         ],
+//                     }),
+//                 ],
+//             });
+//         })
+//     );
 
-    const galleryContent = imageTables.flatMap((table) => [
-        table,
-        new Paragraph(""),
-    ]);
+//     const galleryContent = imageTables.flatMap((table) => [
+//         table,
+//         new Paragraph(""),
+//     ]);
 
-    const result = await patchDocument({
-        outputType: "base64",
-        data: documentBuffer,
-        patches: {
-        GALERIA: {
-            type: PatchType.DOCUMENT,
-            children: galleryContent,
-        },
-        },
-    });
+//     const result = await patchDocument({
+//         outputType: "base64",
+//         data: documentBuffer,
+//         patches: {
+//             GALERIA: {
+//                 type: PatchType.DOCUMENT,
+//                 children: galleryContent,
+//             },
+//         },
+//     });
 
-    return result;
-}
+//     return result;
+// }
 

@@ -3,13 +3,13 @@ import {
   ActivityIndicator,
   Alert,
   Pressable, 
-  StyleSheet
+  StyleSheet,
+  View
 } from "react-native";
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
 import { /* generateTest,  */generateTest2} from '@/src/features/document_generation/generate_test';
 import { useState } from 'react';
+import { Text } from "react-native";
 
 export default function TabOneScreen() {
   const [loading, setLoading] = useState(false);
@@ -54,7 +54,7 @@ export default function TabOneScreen() {
             {opacity: pressed ? 0.5 : 1.0}
           ]}
         >
-          <Text 
+          <Text
               style={styles.title}
           >
               INICIAR

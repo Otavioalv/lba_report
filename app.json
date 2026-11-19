@@ -27,6 +27,7 @@
     },
     "plugins": [
       "expo-router",
+      "expo-asset",
       [
         "expo-splash-screen",
         {
@@ -35,7 +36,15 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-asset"
+      [
+        "react-native-edge-to-edge",
+        {
+          "android": {
+            "parentTheme": "Default",
+            "enforceNavigationBarContrast": false
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

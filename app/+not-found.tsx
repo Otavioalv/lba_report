@@ -1,7 +1,7 @@
 import { Link, Stack } from 'expo-router';
+import { Text } from 'react-native';
+import { View } from 'react-native';
 import { StyleSheet } from 'react-native';
-
-import { Text, View } from '@/components/Themed';
 
 export default function NotFoundScreen() {
   return (

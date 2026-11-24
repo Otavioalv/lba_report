@@ -11,6 +11,7 @@
       "supportsTablet": true
     },
     "android": {
+      
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -37,12 +38,9 @@
         }
       ],
       [
-        "react-native-edge-to-edge",
+        "expo-navigation-bar",
         {
-          "android": {
-            "parentTheme": "Default",
-            "enforceNavigationBarContrast": false
-          }
+          "enforceContrast": false
         }
       ]
     ],

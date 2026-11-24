@@ -3,9 +3,10 @@ import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { SystemBars } from "react-native-edge-to-edge";
-// import { StatusBar } from 'expo-status-bar';
+// import { SystemBars } from "react-native-edge-to-edge";
+import { StatusBar } from 'expo-status-bar';
 import { Platform } from 'react-native';
+import { NavigationBar } from 'expo-navigation-bar';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -21,7 +22,6 @@ export const unstable_settings = {
 // SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
 
   return <RootLayoutNav />;
@@ -30,8 +30,17 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <ThemeProvider value={DefaultTheme}>
-      {/* <StatusBar style={'dark'} /> */}
-      <SystemBars style="light" />
+      <StatusBar style={'dark'}/>
+      <NavigationBar
+        style='dark'
+
+      />
+      {/* <SystemBars
+          style={{
+            statusBar: 'dark',
+            navigationBar: 'dark',
+          }}
+        /> */}
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />

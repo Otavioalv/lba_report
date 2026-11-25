@@ -1,47 +1,39 @@
-
-import { useNavigationState } from 'expo-router/build/react-navigation/index.js';
-import { TouchableOpacity, View } from 'react-native';
-import { TabsHostProps } from 'react-native-screens';
-
-/* 
-type NativeTabBarIconParams = Parameters<NonNullable<BottomTabNavigationOptions['tabBarIcon']>>[0];
-type SymbolViewNameParams = Extract<SymbolViewProps['name'], object>
-
-<Tabs 
-    screenOptions={({route}) => ({
-        tabBarButton: ({ ref, ...props }) => (
-            <TabBarButton {...props} routeName={route.name} />
-        ),
-})}>
-*/
-
-type NativeTabsscreenOptionsParams = Parameters<NonNullable<TabsHostProps["s"]>>;
+import { TouchableOpacity, View, ViewStyle } from 'react-native';
+import { 
+    DescriptorRouteProp, 
+    useNavigationState,
+    ParamListBase, 
+} from 'expo-router/build/react-navigation/index.js';
+import { theme } from '@/src/theme';
 
 
-
-type Props = React.ComponentProps<typeof TouchableOpacity> & {
-    routeName: string;
+export type Props = React.ComponentProps<typeof TouchableOpacity> & {
+    route: DescriptorRouteProp<ParamListBase, string>;
+    activeColor: ViewStyle["backgroundColor"],
 };
 
-export function TabBarButton({ routeName, ...props }: Props) {
+export function TabBarButton({ 
+    route,
+    activeColor,
+    ...props 
+}: Props) {
     const focused = useNavigationState(
-        (state) => state.routes[state.index]?.name === routeName
+        (state) => state.routes[state.index]?.name === route.name
     );
 
     return (
         <View 
             style={{
                 height: "100%", 
-                // backgroundColor: "red"
             }}
         >
             <View
                 style={{
-                    backgroundColor: focused ? '#fdaaaa' : "transparent",
+                    backgroundColor: focused ? activeColor : "transparent",
                     width: "100%",
                     height: 3,
-                    borderBottomLeftRadius: 11,
-                    borderBottomRightRadius: 10,
+                    borderBottomLeftRadius: theme.radius.sm,
+                    borderBottomRightRadius: theme.radius.sm,
                     overflow: "hidden",
                 }}
             />

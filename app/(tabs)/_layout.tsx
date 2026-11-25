@@ -1,76 +1,51 @@
 import { SymbolView } from 'expo-symbols';
-import { Link, Tabs } from 'expo-router';
-import { Pressable, TouchableOpacity, StyleSheet } from 'react-native';
-import { TabBarIcon } from '@/src/features/components/ui/navigation/TabBarIcon';
-import { TabBarButton } from '@/src/features/components/ui/navigation/TabBarButton';
+import { theme } from '@/src/theme';
+import { TopTabs } from 'expo-router/js-top-tabs';
+import AntDesign from '@expo/vector-icons/AntDesign'
+import { createTabOptions } from '@/src/features/components/ui/navigation/createTabOptions';
+
 
 export default function TabLayout() {
 
   return (
-    <Tabs 
-      screenOptions={({route}) => ({
-        headerShown: false,
-        tabBarActiveTintColor: "#fdaaaa",
-        tabBarInactiveTintColor: "#dfdfdf",
-        tabBarLabelStyle: {
-          fontSize: 14,
-          margin: -3
-        },
-        tabBarButton: ({ ref, ...props }) => (
-          <TabBarButton {...props} routeName={route.name} />
-        ),
-    })}>
+    <TopTabs 
+      tabBarPosition='bottom'
+      screenOptions={{
+        // headerShown: false,
+        tabBarActiveTintColor: theme.colors.darkBrown,
+        tabBarInactiveTintColor: theme.colors.mediumBrown,
 
-      {/* <Tabs.Screen
+        tabBarPressOpacity: 1,
+        tabBarPressColor: 'transparent',
+        
+        tabBarLabelStyle: {
+          fontSize: theme.typography.textSM.fontSize,
+          margin: -3 // margin theme definir
+        },
+        tabBarIndicatorStyle: {
+          backgroundColor: theme.colors.darkBrown,
+          borderBottomLeftRadius: theme.radius.sm,
+          borderBottomRightRadius: theme.radius.sm,
+          bottom: undefined,
+          height: 3,
+        },
+    }}>
+
+      <TopTabs.Screen
         name="index"
-        options={{
-          title: 'Relatórios',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              color={color}
-              focused={focused}
-              ios="chevron.left.forwardslash.chevron.right"
-              android="assignment"
-              web="assignment"
-            />
-          ),
-        }}
-      /> */}
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Relatórios',
-          tabBarIcon: ({ color }) => (
-            <SymbolView
-              name={{
-                ios: 'chevron.left.forwardslash.chevron.right',
-                android: 'assignment',
-                web: 'assignment',
-              }}
-              tintColor={color}
-              size={28}
-            />
-          )
-        }}
+        options={createTabOptions({
+          iconName: "assignment",
+          title: "Relatórios"
+        })}
       />
       
-      <Tabs.Screen
+      <TopTabs.Screen
         name="two"
-        options={{
-          title: 'Meu Perfil',
-          tabBarIcon: ({ color }) => (
-            <SymbolView
-              name={{
-                ios: 'chevron.left.forwardslash.chevron.right',
-                android: 'person',
-                web: 'code',
-              }}
-              tintColor={color}
-              size={28}
-            />
-          ),
-        }}
+        options={createTabOptions({
+          title: "Meu Perfil",
+          iconName: "person"
+        })}
       />
-    </Tabs>
+    </TopTabs>
   );
 }

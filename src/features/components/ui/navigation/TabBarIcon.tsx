@@ -2,10 +2,10 @@ import { BottomTabNavigationOptions } from "expo-router/build/layouts/TabsClient
 import { SymbolView, SymbolViewProps } from "expo-symbols";
 import { View } from "react-native";
 
-type NativeTabBarIconParams = Parameters<NonNullable<BottomTabNavigationOptions['tabBarIcon']>>[0];
-type SymbolViewNameParams = Extract<SymbolViewProps['name'], object>
+export type NativeTabBarIconParams = Parameters<NonNullable<BottomTabNavigationOptions['tabBarIcon']>>[0];
+export type SymbolViewNameParams = Extract<SymbolViewProps['name'], object>
 
-interface TabBarIconProps extends SymbolViewNameParams {
+export interface TabBarIconProps extends SymbolViewNameParams {
     color: SymbolViewProps["tintColor"]
     focused: NativeTabBarIconParams["focused"],
 };

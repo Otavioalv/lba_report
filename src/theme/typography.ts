@@ -16,5 +16,5 @@ export const typography = {
     text10XL: {fontSize: 96},
     
     title: { fontSize: 24, fontWeight: "bold" },
-    subtitle: { fontSize: 18, fontWeight: "600" },
+    subtitle: { fontSize: 16, fontWeight: "600" },
 } as const;

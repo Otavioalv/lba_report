@@ -8,10 +8,18 @@ import {
 } from "react-native";
 
 import { /* generateTest,  */generateTest2} from '@/src/features/document_generation/generate_test';
-import { useState } from 'react';
+import {  useState } from 'react';
 import { Text } from "react-native";
 
+// Temporario
+import { Redirect, useRouter } from "expo-router";
+
 export default function TabOneScreen() {
+    const router = useRouter();
+  // Temporario
+//   return <Redirect href={"/(tabs)/(index)/relatorio"}/>;
+
+
   const [loading, setLoading] = useState(false);
 
   async function handleGenerate() {
@@ -47,19 +55,36 @@ export default function TabOneScreen() {
       {loading ? (
         <ActivityIndicator size="large" />
       ) : (
-        <Pressable
-          onPress={handleGenerate}
-          style={({pressed}) => [
-            styles.buttonTest,
-            {opacity: pressed ? 0.5 : 1.0}
-          ]}
-        >
-          <Text
-              style={styles.title}
-          >
-              INICIAR
-          </Text>
-        </Pressable>  
+        <>
+            <Pressable
+                onPress={() => router.push("/(tabs)/(index)/relatorio")}
+                style={({pressed}) => [
+                    styles.buttonTest,
+                    {opacity: pressed ? 0.5 : 1.0}
+                ]}
+                >
+
+                    
+                <Text
+                    style={styles.title}
+                >
+                    PROXIMA PAGINA
+                </Text>
+            </Pressable>  
+            <Pressable
+            onPress={handleGenerate}
+            style={({pressed}) => [
+                styles.buttonTest,
+                {opacity: pressed ? 0.5 : 1.0}
+            ]}
+            >    
+            <Text
+                style={styles.title}
+            >
+                INICIAR
+            </Text>
+            </Pressable>  
+        </>
       )}
       
     </View>

@@ -32,7 +32,7 @@ export default function TabLayout() {
     }}>
 
       <TopTabs.Screen
-        name="index"
+        name="(index)"
         options={createTabOptions({
           iconName: "assignment",
           title: "Relatórios"

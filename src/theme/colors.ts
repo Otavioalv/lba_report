@@ -1,5 +1,4 @@
 export const colors = {
-
   darkGreen: "#0c6638",
   mediumGreen: "#8bc63e", 
   lightGreen: "#b8d989",
@@ -12,17 +11,10 @@ export const colors = {
   mediumBlue: "#6bcff6",
   lightBlue: "#b9e5fa",
 
-  
-
-
-
-
-
   // orange: "#FD5300",
   // lightOrange: "#FFF6F0",
   // orangeOpacity: "#FD530011",
   // bgBttDefault: "#000000",
-  
 
   // red: "#DD3C57",
 
@@ -30,5 +22,7 @@ export const colors = {
   // darkGray: "#878787",
   // pseudoLightGray: "#DEE1E6",
   
+  lightTheme: "#F2F2F2",
+  white: "#FFFFFF",
   textNeutral900: "#171a1f"
 } as const;

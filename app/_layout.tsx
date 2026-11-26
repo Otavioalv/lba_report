@@ -7,6 +7,8 @@ import 'react-native-reanimated';
 import { StatusBar } from 'expo-status-bar';
 import { Platform } from 'react-native';
 import { NavigationBar } from 'expo-navigation-bar';
+import { MyDefaultTheme } from '@/src/constants/theme';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -29,22 +31,32 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <ThemeProvider value={DefaultTheme}>
-      <StatusBar style={'dark'}/>
-      <NavigationBar
-        style='dark'
-
-      />
-      {/* <SystemBars
+    <ThemeProvider value={MyDefaultTheme}>
+      <SafeAreaProvider>
+        <SafeAreaView 
           style={{
-            statusBar: 'dark',
-            navigationBar: 'dark',
-          }}
-        /> */}
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
+            flex:1, 
+            backgroundColor: MyDefaultTheme.colors.background
+          }} 
+          edges={['top']}
+        >
+          <StatusBar style={'dark'}/>
+          <NavigationBar
+            style='dark'
+
+          />
+          <Stack 
+              screenOptions={{ 
+                  headerShown: false,
+                  animation: "none",
+                  // animation: 'slide_from_leftQ',
+                  // animationDuration: 100,
+              }}
+          >   
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack>
+        </SafeAreaView>
+      </SafeAreaProvider>
     </ThemeProvider>
   );
 }

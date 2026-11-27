@@ -94,7 +94,7 @@ export function FormAccordionItem({
 const styles = StyleSheet.create({
     item: {
         backgroundColor: theme.colors.white,
-        borderRadius: theme.radius.sm,
+        borderRadius: theme.radius.md,
         borderWidth: 1,
         borderColor: theme.colors.lightBlue,
         overflow: "hidden",

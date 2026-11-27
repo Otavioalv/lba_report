@@ -6,6 +6,8 @@
     "@expo/vector-icons": "^15.0.2",
     "@react-navigation/material-top-tabs": "^7.8.2",
     "@rn-primitives/accordion": "^1.5.2",
+    "@rn-primitives/portal": "^1.5.3",
+    "@rn-primitives/select": "^1.5.2",
     "docx": "^9.15.2",
     "docxtemplater": "^3.71.1",
     "expo": "~58.0.23",

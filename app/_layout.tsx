@@ -10,6 +10,8 @@ import { NavigationBar } from 'expo-navigation-bar';
 import { MyDefaultTheme } from '@/src/constants/theme';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
+import { PortalHost } from "@rn-primitives/portal";
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -55,6 +57,7 @@ function RootLayoutNav() {
           >   
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           </Stack>
+          <PortalHost/>
         </SafeAreaView>
       </SafeAreaProvider>
     </ThemeProvider>

@@ -1,5 +1,6 @@
 // import { TopTabsScreenPropsType } from "./TopTabsScreen";
-import MaterialIcons from '@expo/vector-icons/MaterialIcons'
+import { MaterialIconNameType } from '@/src/types/icons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { TopTabs } from 'expo-router/js-top-tabs';
 import { ComponentProps } from "react";
 
@@ -11,7 +12,7 @@ export type TopTabsOptionsTabBarIconType = Exclude<
 
 export interface CreateTabOptionsParams {
     title: TopTabsOptionsTabBarIconType["title"],
-    iconName: ComponentProps<typeof MaterialIcons>["name"]
+    iconName: MaterialIconNameType
 }
 
 export function createTabOptions({
